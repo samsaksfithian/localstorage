@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Local Storage</title>
+</head>
+
+<body>
+	<form onsubmit="submitForm(event)">
+		<label for="firstname">First Name</label>
+		<input type="text" name="firstname" id="firstname">
+		
+		<br>
+		
+		<label for="middlename">Middle Name</label>
+		<input type="text" name="middlename" id="middlename">
+
+		<br>
+		
+		<label for="lastname">Last Name</label>
+		<input type="text" name="lastname" id="lastname">
+		
+		<br>
+
+		<button type="submit">Submit</button>
+	</form>
+
+	<script>
+		const user = JSON.parse(localStorage.getItem('user'));
+		if(user){
+			Object.keys(user).forEach(key => {
+				document.querySelector(`input[name="${key}"]`).value = user[key];
+			});
+		}
+		
+		function submitForm(event) {
+			// prevents page refresh
+			event.preventDefault();
+			const form = event.target;
+			const formData = new FormData(form);
+			const user = {};
+			for(let [key, value] of formData.entries()) {
+				console.log(key, value);
+				user[key] = value;
+			}
+			console.log(user);
+			localStorage.setItem('user', JSON.stringify(user));
+
+		}
+	</script>
+</body>
+</html>
